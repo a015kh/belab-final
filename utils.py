@@ -13,40 +13,18 @@ def load_image(filename, a=160, b=160):
     return image
     
 def show_text(text, display, x, y, size=30, color=(255,255,255)):
-    font = pg.font.SysFont('comicsansms', size)
+    font = pg.font.SysFont('timesnewroman', size)
     render_txt = font.render(text, True, color)
     display.blit(render_txt, (x,y))
         
-def loadPose():
+def loadPose(a=256,b=256):
     imgs = []
     for index in range (1, 11):
-        imgs.append(load_image('{:02}-b'.format(index)+'.png',96,96))
-        imgs.append(load_image('{:02}-g'.format(index)+'.png', 96, 96))
-        imgs.append(load_image('{:02}-r'.format(index)+'.png', 96, 96))
+        imgs.append(load_image('{:02}-b'.format(index)+'.png',a, b))
+        imgs.append(load_image('{:02}-g'.format(index)+'.png', a, b))
+        imgs.append(load_image('{:02}-r'.format(index)+'.png', a, b))
     imgs = np.array(imgs)
     return imgs
-        
-def loadGamePoses():
-    imgs = []
-    imgs.append(load_image('pessistic.png'))
-    imgs.append(load_image('surprised.png'))
-    imgs.append(load_image('wink.png'))
-    imgs.append(load_image('sad.png'))
-    imgs.append(load_image('grin.png'))
-    imgs.append(load_image('angry.png'))
-    imgs.append(load_image('LeftO.png'))
-    imgs.append(load_image('RightO.png'))
-    imgs.append(load_image('toothache.png'))
-    imgs.append(load_image('calm.png'))
-    imgs.append(load_image('bling.png'))
-    imgs = np.array(imgs)
-
-    buttons = []
-    buttons.append(load_image('pause.png',96,96))
-    buttons.append(load_image('exit.png',96,96))
-    buttons = np.array(buttons)
-
-    return imgs, buttons
 
 def loadPauseButtons():
     buttons = []

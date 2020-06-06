@@ -1,6 +1,7 @@
 import pygame as pg
 import os
 from PoseDance import PoseDance
+import random
 
 
 
@@ -21,5 +22,8 @@ def main():
     game = PoseDance(gameDisplay, similarity)
     game.run()
 
-
 main()
+#
+# with open('pose.txt', 'w') as fout:
+#     for i in range(10):
+#         fout.write("{} {}\n".format(i, random.randint(0,29)))
