@@ -23,6 +23,10 @@ def loadPose(a=256,b=256):
         imgs.append(load_image('{:02}-b'.format(index)+'.png',a, b))
         imgs.append(load_image('{:02}-g'.format(index)+'.png', a, b))
         imgs.append(load_image('{:02}-r'.format(index)+'.png', a, b))
+    for index in range (1, 11):
+        imgs.append(pg.transform.flip(load_image('{:02}-b'.format(index)+'.png',a, b), True, False))
+        imgs.append(pg.transform.flip(load_image('{:02}-g'.format(index)+'.png',a, b), True, False))
+        imgs.append(pg.transform.flip(load_image('{:02}-r'.format(index)+'.png',a, b), True, False))
     imgs = np.array(imgs)
     return imgs
 

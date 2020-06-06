@@ -4,17 +4,24 @@ import random
 from pygameCamera import Camera
 from utils import *
 
+Pool = loadPose()
 class PoseDance:
     def __init__(self, display, similarity):
         self.RGB = (255, 255, 255)
         self.display = display
+        self.X = []
+        self.Y = []
+        self.changeX = []
+        self.changeY = []
         #self.camera = Camera(self.display)
         #self.similarity = similarity
         #self.imgs, self.buttons = loadGamePoses()
 
     def title(self):
-        Pool = loadPose(140,140)
-        Pose = [Pool[i] for i in range (21)]
+        pool = loadPose(140,140)
+        Pose = []
+        for i in range (21):
+            Pose.append(pool[random.randint(0,59)])
 
         Pose_x = []
         Pose_y = []
@@ -64,9 +71,8 @@ class PoseDance:
             pg.display.update()
 
 
-    def Game(self):
+    def course_select(self):
         start = pg.time.get_ticks()
-        Pool = loadPose()
         imag1 = Pool[random.randint(0, len(Pool) - 1)]
         imag2 = Pool[random.randint(0, len(Pool) - 1)]
         imag3 = Pool[random.randint(0, len(Pool) - 1)]
@@ -128,24 +134,27 @@ class PoseDance:
                 load('course2-b.png', self.display, 500, 200, 252, 72)
                 load('course3-b.png', self.display, 500, 300, 252, 72)
             pg.display.update()
+        return course
 
+    def Game(self, course):
         if (course == 1):
             pg.mixer.music.load("dancing-moon-night.wav")
             pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(1)
-            start = pg.time.get_ticks()
         elif (course == 2):
             pg.mixer.music.load("dancing-all-night.wav")
             pg.mixer.music.set_volume(1)
             pg.mixer.music.play(1)
-            start = pg.time.get_ticks()
         elif (course == 3):
             pg.mixer.music.load("dancing-star-night.wav")
             pg.mixer.music.set_volume(0.2)
             pg.mixer.music.play(1)
-            start = pg.time.get_ticks()
+        start = pg.time.get_ticks()
         dance = self.sequence('pose.txt')
-        imag = load_image('red.png',1,1)
+        imag = []
+        init_pos = []
+        color = []
+        index = 0
         while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -158,11 +167,26 @@ class PoseDance:
             sec = (pg.time.get_ticks() - start) / 1000
             for i in range (len(dance)):
                 if (sec >= dance[i][0] and sec-dance[i][0] <= 0.1):
-                    imag = Pool[dance[i][1]]
-                    break
-                elif(i == len(dance)-1 and sec-dance[i][0] > 0.01):
+                    if index == i:
+                        imag.append(Pool[dance[i][1]])
+                        init_pos.append(dance[i][2])
+                        color.append(dance[i][1]%3)
+                        if (init_pos[i] == 0):
+                            self.X.append(-300)
+                            self.Y.append(300)
+                            self.changeX.append(1)
+                            self.changeY.append(1)
+                        elif (init_pos[i] == 1):
+                            self.X.append(1200)
+                            self.Y.append(300)
+                            self.changeX.append(-1)
+                            self.changeY.append(1)
+                        index += 1
+                        break
+                elif(i == len(dance)-1 and sec-dance[i][0] > 0.1):
                     pass
-            self.move(imag)
+            print(len(imag))
+            self.move(init_pos, self.X, self.Y, self.changeX, self.changeY, imag, color)
 
             pg.display.update()
 
@@ -170,11 +194,50 @@ class PoseDance:
         with open(filename, 'r') as fin:
             a = fin.read()
             line = a.split()
-            line = np.array([int(s) for s in line]).reshape(-1, 2)
+            line = np.array([int(s) for s in line]).reshape(-1, 3)
         return line
 
-    def move(self, img):
-        self.display.blit(img, (300, 300));
+    def move(self, init_pos, X, Y, changeX, changeY, imag, color):
+        for i in range (len(imag)):
+            if X[i] != -1000:
+                self.display.blit(imag[i], (X[i], Y[i]))
+            X[i] += changeX[i]
+            if color[i] == 0: # b=0
+                if init_pos[i] == 0 and X[i] >= 950:
+                    changeX[i] = 0
+                    Y[i] += changeY[i]
+                    if Y[i]>= 400:
+                        X[i]=-1000
+                elif init_pos[i] == 1 and X[i] <= 950:
+                    changeX[i] = 0
+                    Y[i] += changeY[i]
+                    if Y[i] >= 400:
+                        X[i] = -1000
+            elif color[i] == 1: # g=1
+                if init_pos[i] == 0 and X[i] >= 500:
+                    changeX[i] = 0
+                    Y[i] += changeY[i]
+                    if Y[i] >= 400:
+                        X[i] = -1000
+                elif init_pos[i] == 1 and X[i] <= 500:
+                    changeX[i] = 0
+                    Y[i] += changeY[i]
+                    if Y[i] >= 400:
+                        X[i] = -1000
+            elif color[i] == 2:  # r=2
+                if init_pos[i] == 0 and X[i] >= 100:
+                    changeX[i] = 0
+                    Y[i] += changeY[i]
+                    if Y[i] >= 400:
+                        X[i] = -1000
+                elif init_pos[i] == 1 and X[i] <= 100:
+                    changeX[i] = 0
+                    Y[i] += changeY[i]
+                    if Y[i] >= 400:
+                        X[i] = -1000
+
+
+
 
 
 
@@ -191,6 +254,7 @@ class PoseDance:
 
     def run(self):
         self.title()
-        self.Game()
+        course = self.course_select()
+        self.Game(course)
 
 
