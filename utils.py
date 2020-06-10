@@ -3,11 +3,13 @@ import os
 import numpy as np
 
 def load(filename, display, x=0, y=0, a=96, b=96):
+    filenames = os.path.join("assets/images", filename)
     image = pg.image.load(filename)
     image = pg.transform.scale(image,(a,b))  
     display.blit(image,(x,y))   
 
 def load_image(filename, a=160, b=160):
+    filenames = os.path.join("assets/images", filename)
     image = pg.image.load(filename)
     image = pg.transform.scale(image, (a,b))  
     return image
