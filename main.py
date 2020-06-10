@@ -23,8 +23,8 @@ def main():
     game.run()
 
 main()
-#
+
 # with open('pose.txt', 'w') as fout:
-#     for i in range(1,91):
-#         fout.write("{} {} {}\n".format(i, random.randint(0,59), random.randint(0,1)))
+#     for i in range(1,80, 2):
+#         fout.write("{} {} {}\n".format(i, random.randint(0,50), random.randint(0,1)))
 

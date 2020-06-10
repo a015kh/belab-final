@@ -20,13 +20,27 @@ def show_text(text, display, x, y, size=30, color=(255,255,255)):
 def loadPose(a=256,b=256):
     imgs = []
     for index in range (1, 11):
-        imgs.append(load_image('{:02}-b'.format(index)+'.png',a, b))
-        imgs.append(load_image('{:02}-g'.format(index)+'.png', a, b))
-        imgs.append(load_image('{:02}-r'.format(index)+'.png', a, b))
+        if (index != 4 and index != 5 and index != 8):
+            imgs.append(load_image('{:02}-b'.format(index)+'.png',a, b))
+            imgs.append(load_image('{:02}-g'.format(index)+'.png', a, b))
+            imgs.append(load_image('{:02}-r'.format(index)+'.png', a, b))
     for index in range (1, 11):
-        imgs.append(pg.transform.flip(load_image('{:02}-b'.format(index)+'.png',a, b), True, False))
-        imgs.append(pg.transform.flip(load_image('{:02}-g'.format(index)+'.png',a, b), True, False))
-        imgs.append(pg.transform.flip(load_image('{:02}-r'.format(index)+'.png',a, b), True, False))
+        if (index != 4 and index != 5 and index != 8):
+            imgs.append(pg.transform.flip(load_image('{:02}-b'.format(index)+'.png',a, b), True, False))
+            imgs.append(pg.transform.flip(load_image('{:02}-g'.format(index)+'.png',a, b), True, False))
+            imgs.append(pg.transform.flip(load_image('{:02}-r'.format(index)+'.png',a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-b'.format(4) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-g'.format(4) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-r'.format(4) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-b'.format(5) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-g'.format(5) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-r'.format(5) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-b'.format(8) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-g'.format(8) + '.png', a, b), True, False))
+    imgs.append(pg.transform.flip(load_image('{:02}-r'.format(8) + '.png', a, b), True, False))
+
+
+
     imgs = np.array(imgs)
     return imgs
 

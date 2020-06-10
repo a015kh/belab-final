@@ -4,6 +4,7 @@ import random
 from pygameCamera import Camera
 from utils import *
 
+unit = 1.75
 Pool = loadPose()
 class PoseDance:
     def __init__(self, display, similarity):
@@ -21,7 +22,7 @@ class PoseDance:
         pool = loadPose(140,140)
         Pose = []
         for i in range (21):
-            Pose.append(pool[random.randint(0,59)])
+            Pose.append(pool[random.randint(0,len(Pool)-1)])
 
         Pose_x = []
         Pose_y = []
@@ -73,15 +74,15 @@ class PoseDance:
 
     def course_select(self):
         start = pg.time.get_ticks()
-        imag1 = Pool[random.randint(0, len(Pool) - 1)]
-        imag2 = Pool[random.randint(0, len(Pool) - 1)]
-        imag3 = Pool[random.randint(0, len(Pool) - 1)]
-        imag4 = Pool[random.randint(0, len(Pool) - 1)]
-        imag5 = Pool[random.randint(0, len(Pool) - 1)]
-        imag6 = Pool[random.randint(0, len(Pool) - 1)]
-        imag7 = Pool[random.randint(0, len(Pool) - 1)]
-        imag8 = Pool[random.randint(0, len(Pool) - 1)]
-        imag9 = Pool[random.randint(0, len(Pool) - 1)]
+        imag1 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
+        imag2 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
+        imag3 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
+        imag4 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
+        imag5 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
+        imag6 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
+        imag7 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
+        imag8 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
+        imag9 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
         while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -91,17 +92,17 @@ class PoseDance:
             load('course2-b.png', self.display, 500, 200, 252, 72)
             load('course3-b.png', self.display, 500, 300, 252, 72)
             sec = (pg.time.get_ticks() - start) / 1000
-            if(sec > 1):
+            if sec > 0.175:
                 start = pg.time.get_ticks()
-                imag1 = Pool[random.randint(0, len(Pool) - 1)]
-                imag2 = Pool[random.randint(0, len(Pool) - 1)]
-                imag3 = Pool[random.randint(0, len(Pool) - 1)]
-                imag4 = Pool[random.randint(0, len(Pool) - 1)]
-                imag5 = Pool[random.randint(0, len(Pool) - 1)]
-                imag6 = Pool[random.randint(0, len(Pool) - 1)]
-                imag7 = Pool[random.randint(0, len(Pool) - 1)]
-                imag8 = Pool[random.randint(0, len(Pool) - 1)]
-                imag9 = Pool[random.randint(0, len(Pool) - 1)]
+                imag1 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
+                imag2 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
+                imag3 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
+                imag4 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
+                imag5 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
+                imag6 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
+                imag7 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
+                imag8 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
+                imag9 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
             self.display.blit(imag1, (0, 0))
             self.display.blit(imag2, (1050, 0))
             self.display.blit(imag3, (0, 400))
@@ -137,15 +138,15 @@ class PoseDance:
         return course
 
     def Game(self, course):
-        if (course == 1):
+        if course == 1:
             pg.mixer.music.load("dancing-moon-night.wav")
             pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(1)
-        elif (course == 2):
+        elif course == 2:
             pg.mixer.music.load("dancing-all-night.wav")
             pg.mixer.music.set_volume(1)
             pg.mixer.music.play(1)
-        elif (course == 3):
+        elif course == 3:
             pg.mixer.music.load("dancing-star-night.wav")
             pg.mixer.music.set_volume(0.2)
             pg.mixer.music.play(1)
@@ -166,26 +167,26 @@ class PoseDance:
             show_text('Score:', self.display, 490, 70, 75, (0, 0, 0))
             sec = (pg.time.get_ticks() - start) / 1000
             for i in range (len(dance)):
-                if (sec >= dance[i][0] and sec-dance[i][0] <= 0.1):
+                if sec >= dance[i][0] and sec-dance[i][0] <= 0.1:
                     if index == i:
                         imag.append(Pool[dance[i][1]])
                         init_pos.append(dance[i][2])
                         color.append(dance[i][1]%3)
-                        if (init_pos[i] == 0):
+                        if init_pos[i] == 0:
                             self.X.append(-300)
                             self.Y.append(300)
-                            self.changeX.append(1)
-                            self.changeY.append(1)
-                        elif (init_pos[i] == 1):
+                            self.changeX.append(unit)
+                            self.changeY.append(unit)
+                        elif init_pos[i] == 1:
                             self.X.append(1200)
                             self.Y.append(300)
-                            self.changeX.append(-1)
-                            self.changeY.append(1)
+                            self.changeX.append(-1*unit)
+                            self.changeY.append(unit)
                         index += 1
                         break
-                elif(i == len(dance)-1 and sec-dance[i][0] > 0.1):
+                elif i == len(dance)-1 and sec-dance[i][0] > 0.1:
                     pass
-            print(len(imag))
+            #print(len(imag))
             self.move(init_pos, self.X, self.Y, self.changeX, self.changeY, imag, color)
 
             pg.display.update()
@@ -198,7 +199,7 @@ class PoseDance:
         return line
 
     def move(self, init_pos, X, Y, changeX, changeY, imag, color):
-        for i in range (len(imag)):
+        for i in range(len(imag)):
             if X[i] != -1000:
                 self.display.blit(imag[i], (X[i], Y[i]))
             X[i] += changeX[i]
@@ -206,8 +207,8 @@ class PoseDance:
                 if init_pos[i] == 0 and X[i] >= 950:
                     changeX[i] = 0
                     Y[i] += changeY[i]
-                    if Y[i]>= 400:
-                        X[i]=-1000
+                    if Y[i] >= 400:
+                        X[i] = -1000
                 elif init_pos[i] == 1 and X[i] <= 950:
                     changeX[i] = 0
                     Y[i] += changeY[i]
@@ -236,6 +237,9 @@ class PoseDance:
                     if Y[i] >= 400:
                         X[i] = -1000
 
+    def check(self):
+        pass
+
 
 
 
@@ -253,6 +257,7 @@ class PoseDance:
 
 
     def run(self):
+        print(len(Pool))
         self.title()
         course = self.course_select()
         self.Game(course)
