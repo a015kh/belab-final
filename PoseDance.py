@@ -74,64 +74,65 @@ class PoseDance:
 
 
     def course_select(self):
+        pool = loadPose(200, 200)
         start = pg.time.get_ticks()
-        imag1 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
-        imag2 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
-        imag3 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
-        imag4 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
-        imag5 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
-        imag6 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
-        imag7 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
-        imag8 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
+        imag1 = pool[random.randint(1, len(pool) / 3) * 3 - 1]
+        imag2 = pool[random.randint(1, len(pool) / 3) * 3 - 3]
+        imag3 = pool[random.randint(1, len(pool) / 3) * 3 - 1]
+        imag4 = pool[random.randint(1, len(pool) / 3) * 3 - 3]
+        imag5 = pool[random.randint(1, len(pool) / 3) * 3 - 2]
+        imag6 = pool[random.randint(1, len(pool) / 3) * 3 - 3]
+        imag7 = pool[random.randint(1, len(pool) / 3) * 3 - 1]
+        imag8 = pool[random.randint(1, len(pool) / 3) * 3 - 2]
         while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
             self.display.fill(self.RGB)
-            load('course1-b.png', self.display, 500, 100, 252, 72)
-            load('course2-b.png', self.display, 500, 200, 252, 72)
-            load('course3-b.png', self.display, 500, 300, 252, 72)
+            load('course1-b.png', self.display, 354, 100, 252, 72)
+            load('course2-b.png', self.display, 354, 200, 252, 72)
+            load('course3-b.png', self.display, 354, 300, 252, 72)
             sec = (pg.time.get_ticks() - start) / 1000
             if sec > 0.175:
                 start = pg.time.get_ticks()
-                imag1 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
-                imag2 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
-                imag3 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
-                imag4 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
-                imag5 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
-                imag6 = Pool[random.randint(1, len(Pool) / 3) * 3 - 3]
-                imag7 = Pool[random.randint(1, len(Pool) / 3) * 3 - 1]
-                imag8 = Pool[random.randint(1, len(Pool) / 3) * 3 - 2]
+                imag1 = pool[random.randint(1, len(pool) / 3) * 3 - 1]
+                imag2 = pool[random.randint(1, len(pool) / 3) * 3 - 3]
+                imag3 = pool[random.randint(1, len(pool) / 3) * 3 - 1]
+                imag4 = pool[random.randint(1, len(pool) / 3) * 3 - 3]
+                imag5 = pool[random.randint(1, len(pool) / 3) * 3 - 2]
+                imag6 = pool[random.randint(1, len(pool) / 3) * 3 - 3]
+                imag7 = pool[random.randint(1, len(pool) / 3) * 3 - 1]
+                imag8 = pool[random.randint(1, len(pool) / 3) * 3 - 2]
             self.display.blit(imag1, (0, 0))
-            self.display.blit(imag2, (200, 0))
-            self.display.blit(imag3, (550, 0))
-            self.display.blit(imag4, (750, 0))
+            self.display.blit(imag2, (180, 0))
+            self.display.blit(imag3, (600, 0))
+            self.display.blit(imag4, (780, 0))
             self.display.blit(imag5, (0, 400))
-            self.display.blit(imag6, (200, 400))
-            self.display.blit(imag7, (550, 400))
-            self.display.blit(imag8, (750, 400))
+            self.display.blit(imag6, (180, 400))
+            self.display.blit(imag7, (600, 400))
+            self.display.blit(imag8, (780, 400))
 
             mouse = pg.mouse.get_pos()
             click = pg.mouse.get_pressed()
-            if 500 <= mouse[0] <= 752 and 100 <= mouse[1] <= 172:
-                load('course1-r.png', self.display, 500, 100, 252, 72)
+            if 354 <= mouse[0] <= 606 and 100 <= mouse[1] <= 172:
+                load('course1-r.png', self.display, 354, 100, 252, 72)
                 if click[0] == 1:
                     course = 1
                     break
-            elif 500 <= mouse[0] <= 752 and 200 <= mouse[1] <= 272:
-                load('course2-r.png', self.display, 500, 200, 252, 72)
+            elif 354 <= mouse[0] <= 606 and 200 <= mouse[1] <= 272:
+                load('course2-r.png', self.display, 354, 200, 252, 72)
                 if click[0] == 1:
                     course = 2
                     break
-            elif 500 <= mouse[0] <= 752 and 300 <= mouse[1] <= 372:
-                load('course3-r.png', self.display, 500, 300, 252, 72)
+            elif 354 <= mouse[0] <= 606 and 300 <= mouse[1] <= 372:
+                load('course3-r.png', self.display, 354, 300, 252, 72)
                 if click[0] == 1:
                     course = 3
                     break
             else:
-                load('course1-b.png', self.display, 500, 100, 252, 72)
-                load('course2-b.png', self.display, 500, 200, 252, 72)
-                load('course3-b.png', self.display, 500, 300, 252, 72)
+                load('course1-b.png', self.display, 354, 100, 252, 72)
+                load('course2-b.png', self.display, 354, 200, 252, 72)
+                load('course3-b.png', self.display, 354, 300, 252, 72)
             pg.display.update()
         return course
 
@@ -270,8 +271,8 @@ class PoseDance:
 
     def run(self):
         self.title()
-        #course = self.course_select()
-        self.Game(1)
+        course = self.course_select()
+        self.Game(course)
         self.bonus()
 
 
