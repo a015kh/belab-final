@@ -1,8 +1,9 @@
 import pygame as pg
 import numpy as np
 import random
-from pygameCamera import Camera
+# from pygameCamera import Camera
 from utils import *
+from get_emg import EMGDetector
 
 unit = 1.83
 Pool = loadPose()
@@ -14,6 +15,7 @@ class PoseDance:
         self.Y = []
         self.changeX = []
         self.changeY = []
+        self.detector = EMGDetector("COM7")
         #self.camera = Camera(self.display)
         #self.similarity = similarity
         #self.imgs, self.buttons = loadGamePoses()
@@ -175,10 +177,12 @@ class PoseDance:
                 if event.type == pg.QUIT:
                     pg.quit()
             self.display.fill((255, 255, 255))   # substitute this line for camera background
+            text = "pass" if self.detector.exec() else "not pass"
             load('left.png', self.display, 0, 0, 430, 128)
             load('middle.png', self.display, 430, 0, 425, 150)
             load('right.png', self.display, 855, 0, 430, 128)
             show_text('Score:', self.display, 490, 70, 75, (0, 0, 0))
+            show_text(text, self.display, 150, 150, 75, (0, 0, 0))
             sec = (pg.mixer.music.get_pos() - start) / 1000
             show_text('time:' + str(sec), self.display, 0, 70, 75, (0, 0, 0))
             for i in range(len(dance)):

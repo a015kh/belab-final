@@ -30,7 +30,7 @@ class EMGDetector:
         self.history.append(v)
         if len(self.history) > self.num_record:
             self.history.pop(0)
-        print("{} {:.1f} {:.1f}".format(v, np.mean(self.history), np.std(self.history)))
+        # print("{} {:.1f} {:.1f}".format(v, np.mean(self.history), np.std(self.history)))
         if np.std(self.history) > self.range:
             return True
         return False
