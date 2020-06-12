@@ -3,6 +3,7 @@ from constants import *
 import numpy as np
 import pygame as pg
 from pygame.locals import QUIT, KEYDOWN
+from math import pi
 
 def hex2rgb(hex_value):
     hex_value = hex_value.strip("#")
@@ -20,31 +21,27 @@ def draw_poses(display, poses, scale=0.2):
         if event.type in (QUIT,KEYDOWN):
             pg.quit()
 
-    #draw the line
     color = 100,255,200
-    width = 8
+    width = 4
     for a, b in CONNECTED_PART_INDICES:
-        # [a_, ay, ax] = poses[a].astype(int)
-        # [b_, by, bx] = poses[b].astype(int)
+
         [ay, ax] = poses[a].astype(int)
         [by, bx] = poses[b].astype(int)
         pg.draw.line(display,color,(ax,ay),(bx,by),width)
-        # print()
-    # [_, nosex, nosey] = poses[0]
-    # [_, e1x, e1y] = poses[1]
-    # [_, e2x, e2y] = poses[2]
+
     [nosex, nosey] = poses[0]
     [e1x, e1y] = poses[1]
     [e2x, e2y] = poses[2]
-    r = int(np.mean((l2_dist(nosex, nosey, e1x, e1y), l2_dist(nosex, nosey, e2x, e2y))))
-    pg.draw.circle(display,color, (int(nosey), int(nosex)), r + width)
-    pg.draw.circle(display,(255,255,255), (int(nosey), int(nosex)), r)
+    r = int(np.max((l2_dist(nosex, nosey, e1x, e1y), l2_dist(nosex, nosey, e2x, e2y))))
+    c = (int(nosey), int(nosex))
+    r = np.floor((r + width) * 2)
+    pg.draw.arc(display, color, (c[0]-r, c[1]-r, r, r), -pi/2, -pi/2-0.01, width)
     pg.display.update()
 
 if __name__ == "__main__":
+    """test"""
     poses = np.loadtxt("golden_pattern.txt").T
     display_width = 1280
     display_height = 650
     gameDisplay = pg.display.set_mode((display_width, display_height))
-    while True:
-        draw_poses(gameDisplay, poses)
+    draw_poses(gameDisplay, poses)
