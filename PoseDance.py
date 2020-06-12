@@ -4,7 +4,7 @@ import random
 from pygameCamera import Camera
 from utils import *
 
-unit = 1.75
+unit = 1.83
 Pool = loadPose()
 class PoseDance:
     def __init__(self, display, similarity):
@@ -21,7 +21,7 @@ class PoseDance:
     def title(self):
         pool = loadPose(140,140)
         Pose = []
-        for i in range (21):
+        for i in range(21):
             Pose.append(pool[random.randint(0,len(Pool)-1)])
 
         Pose_x = []
@@ -138,107 +138,118 @@ class PoseDance:
         return course
 
     def Game(self, course):
-        if course == 1:
-            pg.mixer.music.load("dancing-moon-night.wav")
-            pg.mixer.music.set_volume(0.3)
-            pg.mixer.music.play(1)
-        elif course == 2:
-            pg.mixer.music.load("dancing-all-night.wav")
-            pg.mixer.music.set_volume(1)
-            pg.mixer.music.play(1)
-        elif course == 3:
-            pg.mixer.music.load("dancing-star-night.wav")
-            pg.mixer.music.set_volume(0.2)
-            pg.mixer.music.play(1)
-        start = pg.time.get_ticks()
         dance = self.sequence('pose.txt')
         imag = []
         init_pos = []
         color = []
         index = 0
-        while True:
+        for i in range(len(dance)):
+            imag.append(Pool[int(dance[i][1])])
+            init_pos.append(dance[i][2])
+            color.append(dance[i][1] % 3)
+            self.X.append(-1000)
+            self.Y.append(300)
+            if init_pos[i] == 0:
+                self.changeX.append(dance[i][3])
+                self.changeY.append(unit)
+            elif init_pos[i] == 1:
+                self.changeX.append(-dance[i][3])
+                self.changeY.append(unit)
+        if course == 1:
+            pg.mixer.music.load(os.path.join("assets/music", "dancing-moon-night.wav"))
+            pg.mixer.music.set_volume(0.3)
+            pg.mixer.music.play(1)
+            start = pg.mixer.music.get_pos()
+        elif course == 2:
+            pg.mixer.music.load(os.path.join("assets/music", "dancing-all-night.wav"))
+            pg.mixer.music.set_volume(1)
+            pg.mixer.music.play(1)
+            start = pg.mixer.music.get_pos()
+        elif course == 3:
+            pg.mixer.music.load(os.path.join("assets/music", "dancing-star-night.wav"))
+            pg.mixer.music.set_volume(0.2)
+            pg.mixer.music.play(1)
+            start = pg.mixer.music.get_pos()
+        while pg.mixer.music.get_busy():
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
-            self.display.fill((255, 255, 255))
+            self.display.fill((255, 255, 255))   # substitute this line for camera background
             load('left.png', self.display, 0, 0, 430, 128)
             load('middle.png', self.display, 430, 0, 425, 150)
             load('right.png', self.display, 855, 0, 430, 128)
             show_text('Score:', self.display, 490, 70, 75, (0, 0, 0))
-            sec = (pg.time.get_ticks() - start) / 1000
-            for i in range (len(dance)):
-                if sec >= dance[i][0] and sec-dance[i][0] <= 0.1:
+            sec = (pg.mixer.music.get_pos() - start) / 1000
+            show_text('time:' + str(sec), self.display, 0, 70, 75, (0, 0, 0))
+            for i in range(len(dance)):
+                if sec >= dance[i][0] and sec-dance[i][0] <= 0.08:
                     if index == i:
-                        imag.append(Pool[dance[i][1]])
-                        init_pos.append(dance[i][2])
-                        color.append(dance[i][1]%3)
                         if init_pos[i] == 0:
-                            self.X.append(-300)
-                            self.Y.append(300)
-                            self.changeX.append(unit)
-                            self.changeY.append(unit)
+                            self.X[i] = -300
+                            self.Y[i] = 300
                         elif init_pos[i] == 1:
-                            self.X.append(1200)
-                            self.Y.append(300)
-                            self.changeX.append(-1*unit)
-                            self.changeY.append(unit)
+                            self.X[i] = 1280
+                            self.Y[i] = 300
                         index += 1
                         break
                 elif i == len(dance)-1 and sec-dance[i][0] > 0.1:
                     pass
-            #print(len(imag))
-            self.move(init_pos, self.X, self.Y, self.changeX, self.changeY, imag, color)
 
+            # display pose sequence
+            self.move(init_pos, self.X, self.Y, self.changeX, self.changeY, imag, color)
             pg.display.update()
+
 
     def sequence(self, filename):
         with open(filename, 'r') as fin:
             a = fin.read()
             line = a.split()
-            line = np.array([int(s) for s in line]).reshape(-1, 3)
+            line = np.array([float(s) for s in line]).reshape(-1, 4)
         return line
 
     def move(self, init_pos, X, Y, changeX, changeY, imag, color):
         for i in range(len(imag)):
             if X[i] != -1000:
                 self.display.blit(imag[i], (X[i], Y[i]))
-            X[i] += changeX[i]
-            if color[i] == 0: # b=0
-                if init_pos[i] == 0 and X[i] >= 950:
-                    changeX[i] = 0
-                    Y[i] += changeY[i]
-                    if Y[i] >= 400:
-                        X[i] = -1000
-                elif init_pos[i] == 1 and X[i] <= 950:
-                    changeX[i] = 0
-                    Y[i] += changeY[i]
-                    if Y[i] >= 400:
-                        X[i] = -1000
-            elif color[i] == 1: # g=1
-                if init_pos[i] == 0 and X[i] >= 500:
-                    changeX[i] = 0
-                    Y[i] += changeY[i]
-                    if Y[i] >= 400:
-                        X[i] = -1000
-                elif init_pos[i] == 1 and X[i] <= 500:
-                    changeX[i] = 0
-                    Y[i] += changeY[i]
-                    if Y[i] >= 400:
-                        X[i] = -1000
-            elif color[i] == 2:  # r=2
-                if init_pos[i] == 0 and X[i] >= 100:
-                    changeX[i] = 0
-                    Y[i] += changeY[i]
-                    if Y[i] >= 400:
-                        X[i] = -1000
-                elif init_pos[i] == 1 and X[i] <= 100:
-                    changeX[i] = 0
-                    Y[i] += changeY[i]
-                    if Y[i] >= 400:
-                        X[i] = -1000
-
+                X[i] += changeX[i]
+                if color[i] == 0:  # blue = 0
+                    if init_pos[i] == 0 and X[i] >= 950:
+                        changeX[i] = 0
+                        Y[i] += changeY[i]
+                        if Y[i] >= 400:  # here is where the image disappears
+                            X[i] = -1000
+                    elif init_pos[i] == 1 and X[i] <= 950:
+                        changeX[i] = 0
+                        Y[i] += changeY[i]
+                        if Y[i] >= 400:  # here is where the image disappears
+                            X[i] = -1000
+                elif color[i] == 1:  # green = 1
+                    if init_pos[i] == 0 and X[i] >= 500:
+                        changeX[i] = 0
+                        Y[i] += changeY[i]
+                        if Y[i] >= 400:  # here is where the image disappears
+                            X[i] = -1000
+                    elif init_pos[i] == 1 and X[i] <= 500:
+                        changeX[i] = 0
+                        Y[i] += changeY[i]
+                        if Y[i] >= 400:  # here is where the image disappears
+                            X[i] = -1000
+                elif color[i] == 2:  # red = 2
+                    if init_pos[i] == 0 and X[i] >= 100:
+                        changeX[i] = 0
+                        Y[i] += changeY[i]
+                        if Y[i] >= 400:  # here is where the image disappears
+                            X[i] = -1000
+                    elif init_pos[i] == 1 and X[i] <= 100:
+                        changeX[i] = 0
+                        Y[i] += changeY[i]
+                        if Y[i] >= 400:  # here is where the image disappears
+                            X[i] = -1000
     def check(self):
         pass
+
+    def bonus(self):
+        print('Time to do the bonus')
 
 
 
@@ -257,9 +268,9 @@ class PoseDance:
 
 
     def run(self):
-        print(len(Pool))
         self.title()
         course = self.course_select()
         self.Game(course)
+        self.bonus()
 
 
