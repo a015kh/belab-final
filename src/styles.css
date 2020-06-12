@@ -165,3 +165,21 @@ td {
     margin-right: 20px;
     margin-bottom: 20px;
 }
+
+.floor {
+    margin: 20px;
+    width: 80px;
+    height: 48px;
+}
+
+.floor1 {
+    background-color: #b44044;
+}
+
+.floor2 {
+    background-color: #44a860;
+}
+
+.floor3 {
+    background-color: #5275ad;
+}
