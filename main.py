@@ -12,7 +12,7 @@ def main():
     clock = pg.time.Clock()
     clock.tick(30)
     # create screen
-    display_width = 1280
+    display_width = 960
     display_height = 650
     pos_x = 0
     pos_y = 30
