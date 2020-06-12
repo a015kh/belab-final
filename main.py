@@ -9,7 +9,8 @@ def main():
     similarity =3 #Similarity()
 
     pg.init()
-    #pg.mixer.music.load("dancing-moon-night.mp3")
+    clock = pg.time.Clock()
+    clock.tick(30)
     # create screen
     display_width = 1280
     display_height = 650
@@ -22,7 +23,8 @@ def main():
     game = PoseDance(gameDisplay, similarity)
     game.run()
 
-main()
+if __name__ == '__main__':
+    main()
 
 # with open('pose.txt', 'w') as fout:
 #     for i in range(1,80, 2):

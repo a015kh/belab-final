@@ -4,14 +4,14 @@ import numpy as np
 
 def load(filename, display, x=0, y=0, a=96, b=96):
     filenames = os.path.join("assets/images", filename)
-    image = pg.image.load(filename)
-    image = pg.transform.scale(image,(a,b))  
+    image = pg.image.load(filenames)
+    image = pg.transform.scale(image,(a,b))
     display.blit(image,(x,y))   
 
 def load_image(filename, a=160, b=160):
     filenames = os.path.join("assets/images", filename)
-    image = pg.image.load(filename)
-    image = pg.transform.scale(image, (a,b))  
+    image = pg.image.load(filenames)
+    image = pg.transform.scale(image, (a, b))
     return image
     
 def show_text(text, display, x, y, size=30, color=(255,255,255)):
@@ -40,8 +40,6 @@ def loadPose(a=256,b=256):
     imgs.append(pg.transform.flip(load_image('{:02}-b'.format(8) + '.png', a, b), True, False))
     imgs.append(pg.transform.flip(load_image('{:02}-g'.format(8) + '.png', a, b), True, False))
     imgs.append(pg.transform.flip(load_image('{:02}-r'.format(8) + '.png', a, b), True, False))
-
-
 
     imgs = np.array(imgs)
     return imgs
