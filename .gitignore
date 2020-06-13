@@ -1,2 +1,6 @@
-__pycache__
+__pycache__/
 .vscode
+_models/
+images_bak/
+assets/posture
+pose/
