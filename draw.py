@@ -15,8 +15,15 @@ def hex2rgb(hex_value):
 def l2_dist(x1, y1, x2, y2):
     return np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
-def draw_poses(display, poses, scale=0.2):
+def draw_poses(display, poses, scale=1):
+    """
+    in PoseDance.Game()
+    while scope:
+        poses = self.similarity.keypoint_coords
+        draw_poses(self.display, poses)
+    """
     poses *= scale
+    poses = poses.T
     for event in pg.event.get():
         if event.type in (QUIT,KEYDOWN):
             pg.quit()
