@@ -21,21 +21,14 @@ class EMGDetector:
         if len(s) == 0:
             return False
         try:
-            value = int(s)
-            return self.update(value)
+            value = float(s)
+            if value > self.range:
+                return True
         except ValueError:
-            return False
-
-    def update(self, v):
-        self.history.append(v)
-        if len(self.history) > self.num_record:
-            self.history.pop(0)
-        # print("{} {:.1f} {:.1f}".format(v, np.mean(self.history), np.std(self.history)))
-        if np.std(self.history) > self.range:
-            return True
+            pass
         return False
 
 if __name__ == "__main__":
     detector = EMGDetector("COM7")
     while True:
-        reach_threshold = detector.exec()
+        print(detector.exec())
