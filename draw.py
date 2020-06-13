@@ -1,4 +1,3 @@
-# import posenet
 from constants import *
 import numpy as np
 import pygame as pg
@@ -23,7 +22,9 @@ def draw_poses(display, poses, scale=1):
         draw_poses(self.display, poses)
     """
     poses *= scale
-    poses = poses.T
+    poses = np.reshape(poses, (17, 2))
+    poses[:, 1] = 960 - poses[:, 1]
+    #print(poses.shape)
     for event in pg.event.get():
         if event.type in (QUIT,KEYDOWN):
             pg.quit()
@@ -52,3 +53,4 @@ if __name__ == "__main__":
     display_height = 650
     gameDisplay = pg.display.set_mode((display_width, display_height))
     draw_poses(gameDisplay, poses)
+

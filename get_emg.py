@@ -9,7 +9,7 @@ class EMGDetector:
         In linux ststem, usually use '/dev/ttyACM0' for UART
         """
         self.ser = serial.Serial(port, 9600, timeout=10)
-        self.range = 20
+        self.range = 15
         self.num_record = 30
         self.history = []
         self.setup_time = 50
@@ -17,18 +17,21 @@ class EMGDetector:
             self.exec()
 
     def exec(self):
+        self.ser.write("s".encode())
         s = self.ser.readline().decode().rstrip('\r\n').rstrip('\r\n')
         if len(s) == 0:
             return False
         try:
             value = float(s)
+            print(value)
             if value > self.range:
                 return True
-        except ValueError:
+        except:
             pass
         return False
 
 if __name__ == "__main__":
-    detector = EMGDetector("COM7")
+    detector = EMGDetector("/dev/ttyACM0")
     while True:
         print(detector.exec())
+

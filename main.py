@@ -2,11 +2,12 @@ import pygame as pg
 import os
 from PoseDance import PoseDance
 import random
+from similarity import Similarity
 
 
 
 def main():
-    similarity =3 #Similarity()
+    similarity =Similarity()
 
     pg.init()
     clock = pg.time.Clock()
@@ -26,7 +27,11 @@ def main():
 if __name__ == '__main__':
     main()
 
-# with open('pose.txt', 'w') as fout:
-#     for i in range(1,80, 2):
-#         fout.write("{} {} {}\n".format(i, random.randint(0,50), random.randint(0,1)))
+#with open('pose.txt', 'w') as fout:
+#    for i in range(1,18, ):
+#      fout.write("{} {} {}\n".format(4*i-3, 3*(i-1) ,0))
 
+
+#with open('punch.txt', 'w') as fout:
+#    for i in range(1,18, ):
+#      fout.write("{} {}\n".format(4*i-2 ,0))
