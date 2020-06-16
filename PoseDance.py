@@ -151,7 +151,7 @@ class PoseDance:
     def Game(self, course):
         self.frame=pg.transform.flip(self.camera.capture(),True,False)
         self.check()
-        dance = self.sequence('pose.txt', 3)
+        dance = self.sequence('pose_test.txt', 3)
         imag = []
         imag_index = []
         init_pos = []
@@ -202,14 +202,14 @@ class PoseDance:
             self.frame=pg.transform.flip(self.camera.capture(),True,False)
             self.display.blit(self.frame,(0,0))
             load('left.png', self.display, 0, 0, 320, 96)
-            load('middle.png', self.display, 320, 0, 320, 128)
+            load('middle.png', self.display, 320, -85, 320, 128)
             load('right.png', self.display, 640, 0, 320, 96)
             load('floor-r.png', self.display, 0, 620, 320, 96)
             load('floor-g.png', self.display, 320, 620, 320, 128)
             load('floor-b.png', self.display, 640, 620, 320, 96)
-            show_text('Score:'+ str(self.score), self.display, 350, 60, 60, (0, 0, 0))
+            show_text('Score:'+ str(self.score), self.display, 400, -5, 45, (0, 0, 0))
             sec = (pg.mixer.music.get_pos() - start) / 1000
-            show_text('time:' + str(sec), self.display, 0, 60, 60, (0, 0, 0))
+            #show_text('time:' + str(sec), self.display, 0, 60, 60, (0, 0, 0))
             for i in range(len(dance)):
                 if sec >= dance[i][0] and sec-dance[i][0] <= 0.5:
                     if index == i:
@@ -226,6 +226,7 @@ class PoseDance:
             self.move(init_pos, self.X, self.Y, self.changeX, self.changeY, imag, color, imag_index)
             #draw_poses(self.display, self.similarity.keypoint_coords)
             pg.display.update()
+        return True
 
     def sequence(self, filename, n):
         with open(filename, 'r') as fin:
@@ -311,8 +312,22 @@ class PoseDance:
         print("Pose ID:",pose_id)#TODO
         return pose_id #1~51
 
-    def bonus(self):
-        print('Time to do the bonus')
+    def result(self):
+        while True:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+            self.display.fill(self.RGB)   
+            show_text('Final Score:', self.display, 350, 400, 60, (0, 0, 0))
+            show_text(str(self.score), self.display, 500, 450, 60, (0, 0, 0))
+            load('logo.png', self.display, 180, 200, 640, 128)
+            pg.display.update()
+            mouse = pg.mouse.get_pos()
+            click = pg.mouse.get_pressed()
+            if 180 <= mouse[0] <= 720 and 200<= mouse[1] <= 328:
+                if click[0] == 1:
+                    break
+        
 
 
 
@@ -322,7 +337,7 @@ class PoseDance:
 
 
 
-
+   
 
 
 
@@ -333,7 +348,14 @@ class PoseDance:
     def run(self):
         self.title()
         course = self.course_select()
-        self.Game(course)
-        self.bonus()
-
+        while self.Game(course):
+            self.result()
+            self.score = 0
+            self.X = []
+            self.Y = []
+            self.changeX = []
+            self.changeY = []
+            self.title()
+            course = self.course_select()
+        
 

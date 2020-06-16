@@ -59,7 +59,7 @@ class Similarity():
                 print('Keypoint %s, score = %f, coord = %s' % (posenet.PART_NAMES[ki], s, c))
         
         '''
-        #print("FPS",1/(time.time()-start))
+        print("FPS",1/(time.time()-start))
         self.pose_scores =pose_scores
         self.keypoint_scores=keypoint_scores
         self.keypoint_coords=keypoint_coords/output_scale 
